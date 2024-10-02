@@ -12,7 +12,8 @@ WiFiServer server(80);
 String header;
 
 const int stepsPerRevolution = 40;
-Stepper myStepper(stepsPerRevolution, 32, 33, 25, 26);
+Stepper myStepper1(stepsPerRevolution, 32, 33, 25, 26); //motor 1
+Stepper myStepper2(stepsPerRevolution, 19, 18, 22, 23); //motor 2
 
 
 String statePin32 = "off";
@@ -27,7 +28,8 @@ const long timeoutTime = 2000;
 
 void setup() 
 {
-  myStepper.setSpeed(80);
+  myStepper1.setSpeed(100);
+  myStepper2.setSpeed(100);
   Serial.begin(115200);
 
   WiFi.softAP(ssid, password);
@@ -70,20 +72,14 @@ void loop() {
             if (header.indexOf("GET /32/on") >= 0) {
               statePin32 = "on";
               Serial.println("Clockwise");
-              myStepper.step(150);             // turns the Motor on
+              myStepper1.step(150);             // turns the Motor on
+              myStepper2.step(-150);            //Opens Cover
             } else if (header.indexOf("GET /32/off") >= 0) {
               statePin32 = "off";
               Serial.println("Anticlockwise");
-              myStepper.step(-150);            //turns the Motor off
+              myStepper1.step(-150);            //turns Motor anticlockwise
+              myStepper2.step(150);             //Closes Cover
             }
-            
-            /*if (header.indexOf("GET /17/on") >= 0) {
-              statePin17 = "on";
-              digitalWrite(ledPin17, HIGH);               // turns the LED on
-            } else if (header.indexOf("GET /17/off") >= 0) {
-              statePin17 = "off";
-              digitalWrite(ledPin17, LOW);                //turns the LED off
-            }*/
 
             // Display the HTML web page
             client.println("<!DOCTYPE html><html>");
