@@ -2,8 +2,8 @@
 #include <Stepper.h> // Load Stepper library
 
 // Network credentials Here
-const char* ssid     = "ESP32-Network";
-const char* password = "a";
+const char  *ssid     = "StepperMotor123";
+const char *password = "abcdefghij";
 
 // Set web server port number to 80
 WiFiServer server(80);
@@ -24,12 +24,13 @@ unsigned long previousTime = 0;
 // Define timeout time in milliseconds
 const long timeoutTime = 2000;
 
-void setup() {
+
+void setup() 
+{
   myStepper.setSpeed(80);
   Serial.begin(115200);
-  
-  WiFi.mode(WIFI_AP);
-  WiFi.softAP(ssid, password, 11, 0, 4);
+
+  WiFi.softAP(ssid, password);
   
   // Print IP address and start web server
   Serial.println("");
